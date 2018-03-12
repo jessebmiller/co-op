@@ -7,4 +7,6 @@ build:
 
 
 install package: build
-        docker run -v $(pwd):/app {{image_name}}:{{image_tag}} npm install {{package}}
+        docker run -v `pwd`:/app {{image_name}}:{{image_tag}} npm install {{package}}
+
+
