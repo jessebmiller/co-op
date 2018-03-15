@@ -41,5 +41,13 @@ contract CoopBank is StandardToken {
   function redeem(uint256 _amount) public returns (bool) {
     // you need to own the amount you are redeeming
     require(_amount >= balances[msg.sender]);
+    
+  }
+
+  /*
+   * burn removes COOP from the supply and the message sender's balance.
+   */
+  function burn(uint256 _amount) public returns (bool) {
+    require(_amount >= balances[msg.sender]);
   }
 }
