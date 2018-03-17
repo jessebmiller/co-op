@@ -38,16 +38,21 @@ contract CoopBank is StandardToken {
   /*
    * Redeem COOP for the ETH backing it
    */
-  function redeem(uint256 _amount) public returns (bool) {
-    // you need to own the amount you are redeeming
-    require(_amount >= balances[msg.sender]);
-    
+  function redeem(uint256 _amount) public returns (uint256) {
+    require(balances[msg.sender] >= _amount);
+    uint256 value = _amount * coopPrice();
+    balances[msg.sender] = balances[msg.sender].sub(_amount);
+    totalSupply = totalSupply.sub(_amount);
+    msg.sender.transfer(value);
+    return value;
   }
 
   /*
    * burn removes COOP from the supply and the message sender's balance.
    */
   function burn(uint256 _amount) public returns (bool) {
-    require(_amount >= balances[msg.sender]);
+    require(balances[msg.sender] >= _amount);
+    balances[msg.sender] = balances[msg.sender].sub(_amount);
+    return true;
   }
 }
