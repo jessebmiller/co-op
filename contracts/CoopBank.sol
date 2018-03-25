@@ -11,7 +11,7 @@ contract CoopBank is StandardToken {
   //  function CoopBank() public { }
 
   /*
-   * The COOP price in ETH (wei)
+   * The COOP price in ETH
    */
   function coopPrice() public returns (uint256) {
     if (totalSupply == 0) {

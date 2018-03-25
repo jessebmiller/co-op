@@ -1,6 +1,6 @@
 const CoopBank = artifacts.require("./CoopBank.sol")
 
-contract("CoopBank initial setup", function([alice, bob, ...accounts]) {
+contract("CoopBank", function([alice, bob, ...accounts]) {
 
   let bank
   beforeEach(async function() {
@@ -13,14 +13,6 @@ contract("CoopBank initial setup", function([alice, bob, ...accounts]) {
 
   it("starts with COOP price of 1", async function () {
     assert.equal(await bank.coopPrice.call(), 1)
-  })
-})
-
-contract("CoopBank mint", function([alice, bob, ...accounts]) {
-
-  let bank
-  beforeEach(async function() {
-    bank = await CoopBank.new()
   })
 
   it("mints new COOP without changing price", async function() {
