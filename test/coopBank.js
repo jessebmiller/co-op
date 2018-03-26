@@ -25,7 +25,7 @@ contract("CoopBank mint", function([alice, bob, ...accounts]) {
 
   it("mints new COOP without changing price", async function() {
     assert.equal(await bank.balanceOf(alice), 0)
-    const amount = web3.toWei(2, "ether")
+    const amount = 200
     const price = await bank.coopPrice.call()
     const priceBefore = await bank.coopPrice.call()
     priceAfter = await bank.coopPrice.call()
@@ -35,59 +35,59 @@ contract("CoopBank mint", function([alice, bob, ...accounts]) {
   })
 
   it("lets accounts redeem their COOP", async function() {
-    // alice mints 3 ether worth
-    amount = web3.toWei(3, "ether")
+    // alice mints 300
+    amount = 300
     await bank.mint({value: amount})
     supplyBefore = await bank.totalSupply.call()
     balanceBefore = web3.eth.getBalance(alice)
 
-    // redeem 2 either worth
-    await bank.redeem(web3.toWei(2, "ether"), {from: alice, gasPrice: 0})
+    // redeem 200
+    await bank.redeem(200, {from: alice, gasPrice: 0})
     balanceAfter = web3.eth.getBalance(alice)
     supplyAfter = await bank.totalSupply.call()
 
-    // should have 1 ether worth left
+    // should have 100 left
     assert.equal(
       await bank.balanceOf(alice),
-      web3.toWei(1, "ether"),
+      100,
       "COOP balance after redeem not 1 ether worth",
     )
-    // eth before redeem should be 2 less than eth after redeem
+    // eth before redeem should be 200 less than after redeem
     assert.equal(
-      balanceAfter.sub(balanceBefore).div(10**18).toNumber(),
-      2,
-      "ETH balance before not 2 less than after redeem",
+      balanceAfter.sub(balanceBefore).toNumber(),
+      200,
+      "ETH balance before not 200 less than after redeem",
     )
-    // total supply should go down by 2 ether worth
+    // total supply should go down by 200
     assert.equal(
-      supplyBefore.div(10**18).sub(2).toNumber(),
-      supplyAfter.div(10**18).toNumber(),
-      "supply after redeem did not go down by 2",
+      supplyBefore.sub(200).toNumber(),
+      supplyAfter.toNumber(),
+      "supply after redeem did not go down by 200",
     )
   })
 
   it("lets accounts burn their COOP", async function() {
     assert.equal(await bank.balanceOf(alice), 0)
-    // mint 4
-    await bank.mint({value: web3.toWei(4, "ether")})
-    // burn 1
-    await bank.burn(web3.toWei(1, "ether"))
-    // alice should have 3 left
+    // mint 400
+    await bank.mint({value: 400})
+    // burn 100
+    await bank.burn(100)
+    // alice should have 300 left
     remaining = await bank.balanceOf(alice)
     assert(
-      remaining.equals(web3.toWei(3, "ether")),
+      remaining.equals(300),
       "Incorrect amount remaining after burn",
     )
     // the price should have gone up
-    ratio = web3.toWei(4, "ether") / web3.toWei(3, "ether")
+    ratio = 400 / 300
     assert.equal(await bank.coopPrice.call(), Math.floor(ratio))
   })
 
   it("won't let you burn more than your balance", async function() {
-    // mint 1 then try to burn 2
-    await bank.mint({value: web3.toWei(1, "ether")})
+    // mint 100 then try to burn 200
+    await bank.mint({value: 100})
     try {
-      await bank.burn(web3.toWei(2, "ether"))
+      await bank.burn(200)
     } catch(e) {
       assert.equal(
         "VM Exception while processing transaction: revert",
@@ -99,10 +99,10 @@ contract("CoopBank mint", function([alice, bob, ...accounts]) {
   })
 
   it("won't let you redeem more than your balance", async function() {
-    // mint 1 then try to redeem 2
-    await bank.mint({value: web3.toWei(1, "ether")})
+    // mint 100 then try to redeem 200
+    await bank.mint({value: 100})
     try {
-      await bank.redeem(web3.toWei(2, "ether"))
+      await bank.redeem(200)
     } catch(e) {
       assert.equal(
         "VM Exception while processing transaction: revert",
