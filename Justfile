@@ -1,7 +1,7 @@
 image_repo = "jesse/coop"
 image_tag = `git rev-parse --short HEAD`
 image_name = image_repo + ":" + image_tag
-test_cmd = "truffle test test/coopBank.js"
+test_cmd = "truffle test"
 
 build:
 	docker build -t {{image_name}} .

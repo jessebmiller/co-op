@@ -1,5 +1,5 @@
 const CoopBank = artifacts.require("./CoopBank.sol")
-const CoopAgreementManager = artifacts.require("./CoopAgreements.sol")
+const CoopAgreementManager = artifacts.require("./AgreementManager.sol")
 
 contract("CoopAgreements...", function ([alice, bob, ...accounts]) {
 

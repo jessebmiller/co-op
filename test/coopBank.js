@@ -14,6 +14,8 @@ contract("CoopBank initial setup", function([alice, bob, ...accounts]) {
   it("starts with COOP price of 1", async function () {
     assert.equal(await bank.coopPrice.call(), 1)
   })
+
+  // test that it can have the agreement manager registered
 })
 
 contract("CoopBank mint", function([alice, bob, ...accounts]) {
@@ -66,6 +68,7 @@ contract("CoopBank mint", function([alice, bob, ...accounts]) {
     )
   })
 
+  // TODO restrict burning to the agreement manager
   it("lets accounts burn their COOP", async function() {
     assert.equal(await bank.balanceOf(alice), 0)
     // mint 400
@@ -113,3 +116,6 @@ contract("CoopBank mint", function([alice, bob, ...accounts]) {
     assert.fail("Allowed overdraw")
   })
 })
+
+// TODO: Test agreement manager functionality
+// stake, burn, release
